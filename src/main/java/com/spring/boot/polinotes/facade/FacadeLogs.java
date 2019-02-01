@@ -14,18 +14,20 @@ import java.util.List;
  *
  * @author clan-
  */
-public class FacadeLogs {
+public class FacadeLogs implements IFacadeLogs{
     private final  ILogsDao dao;
 
     public FacadeLogs() {
         this.dao = new DAO_Logs();
     }
     
+    @Override
     public boolean setLog(Logs log) {
         boolean result = this.dao.SetLog(log);
         return result;
     }
     
+    @Override
     public List<Logs> getLogs() {
         List<Logs> listaLogs = this.dao.getLogs();
         return listaLogs;

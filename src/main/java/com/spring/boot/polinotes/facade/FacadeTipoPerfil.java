@@ -14,30 +14,33 @@ import java.util.List;
  *
  * @author scardonas
  */
-public class FacadeTipoPerfil {
-        public final ITipo_PerfilDao dao;
+public class FacadeTipoPerfil implements IFacadeTipoPerfil {
+
+    public final ITipo_PerfilDao dao;
 
     public FacadeTipoPerfil() {
         this.dao = new DAO_Tipo_Perfil();
     }
-        
-        
-        
+
+    @Override
     public boolean setPerfil(Tipo_Perfil perfil) {
         boolean result = this.dao.setPerfil(perfil);
         return result;
     }
 
+    @Override
     public boolean updatePerfil(Tipo_Perfil perfil) {
         boolean result = this.dao.updatePerfil(perfil);
         return result;
     }
 
+    @Override
     public boolean deletePerfil(Tipo_Perfil perfil) {
         boolean result = this.dao.deletePerfil(perfil);
         return result;
     }
 
+    @Override
     public List<Tipo_Perfil> getPerfil() {
         List<Tipo_Perfil> listaPerfil = this.dao.getPerfil();
         return listaPerfil;

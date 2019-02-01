@@ -14,35 +14,36 @@ import java.util.List;
  *
  * @author clan-
  */
-public class FacadeFacultad {
+public class FacadeFacultad implements IFacadeFacultad{
     private final IFacultadDao dao;
 
     public FacadeFacultad() {
         this.dao = new DAO_Facultad();
     }
     
+    @Override
     public boolean setFacultad(Facultad fac) {
         boolean result = this.dao.setFacultad(fac);
         return result; 
     }
-    
+    @Override
     public List<Object> getFacultad() {
         List<Object> listaFacultad = this.dao.getFacultad();
         return listaFacultad; 
     }
-    
+    @Override
     public boolean updateFacultad(Facultad fac){
         boolean result = this.dao.updateFacultad(fac);
         return result; 
     }
-    
+    @Override
     public boolean deleteFacultad(Facultad fac) {
         boolean result = this.dao.deleteFacultad(fac);
         return result; 
     }
     
     //**********************************PROCEDIMIENTOS ALMACENADOS**************************************
-    
+    @Override
     public boolean P_ValidFacultad(String tipo, Facultad fac) {
         boolean result = this.dao.P_ValidFacultad(tipo, fac);
         return result; 

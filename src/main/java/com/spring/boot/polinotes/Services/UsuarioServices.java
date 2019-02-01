@@ -8,6 +8,7 @@ package com.spring.boot.polinotes.Services;
 import com.google.gson.Gson;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.facade.FacadeUsuario;
+import com.spring.boot.polinotes.facade.IFacadeUsuario;
 import java.util.ArrayList;
 import java.util.List;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsuarioServices {
-    private FacadeUsuario facade;
+    private IFacadeUsuario facade;
 
     public UsuarioServices() {
         this.facade = new FacadeUsuario();
