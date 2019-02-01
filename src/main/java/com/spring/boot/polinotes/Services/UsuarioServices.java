@@ -96,6 +96,27 @@ public class UsuarioServices {
         return this.facade.deleteUser(dataDelete);
     }
     
+    @CrossOrigin
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
+    public Boolean validar(@RequestParam(value="key") String key,@RequestParam(value="valor")String value){
+        
+        Usuario us = new Usuario();
+        
+        if (key.equals("ValidarNick")) {
+                us.setNICK_USER(value);
+            }
+            
+            if (key.equals("ValidarEmail")) {
+                us.setCORREO_USER(value);
+            }
+            
+            if (key.equals("ValidarDoc")) {
+                us.setDOC_USER(value);
+            }   
+        return this.facade.P_ValidUser(key, us);
+    }
+    
+    
     
     
 }
