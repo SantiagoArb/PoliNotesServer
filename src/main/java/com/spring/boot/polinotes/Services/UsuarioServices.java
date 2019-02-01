@@ -68,7 +68,7 @@ public class UsuarioServices {
          Usuario data = new Gson().fromJson(usuario, Usuario.class);
         System.out.println("Entro al servicio");
         System.out.println(data);
-        return this.facade.setUser(data);//user;
+        return this.facade.setUser(data);
     }
     
     @CrossOrigin
@@ -78,13 +78,13 @@ public class UsuarioServices {
          Usuario data = new Gson().fromJson(usuario, Usuario.class);
         System.out.println("Entro al servicio");
         System.out.println(data);
-        return this.facade.updateUser(data);//user;
+        return this.facade.updateUser(data);
     }
     
     @CrossOrigin
     @RequestMapping(value = "/getinfouser", method = RequestMethod.POST)
     public Usuario getInfo(@RequestBody String usuario){
-        return this.facade.getInfoUser(usuario);//user;
+        return this.facade.getInfoUser(usuario);
     }
     
     @CrossOrigin
@@ -92,7 +92,7 @@ public class UsuarioServices {
     public Boolean deleteUser(@RequestBody String usuario){
         
         Usuario dataDelete = new Gson().fromJson(usuario, Usuario.class);
-        return this.facade.deleteUser(dataDelete);//user;
+        return this.facade.deleteUser(dataDelete);
     }
     
     
