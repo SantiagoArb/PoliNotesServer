@@ -7,6 +7,10 @@ package com.spring.boot.polinotes.facade;
 
 import com.spring.boot.polinotes.Dao.DAO_Materia;
 import com.spring.boot.polinotes.Dao.IMateriaDao;
+import com.spring.boot.polinotes.models.Materia;
+import com.spring.boot.polinotes.models.Usuario;
+import com.spring.boot.polinotes.models.estMat;
+import java.util.List;
 
 /**
  *
@@ -18,9 +22,40 @@ public class FacadeMateria implements IFacadeMateria{
     public FacadeMateria() {
         this.dao = new DAO_Materia();
     }
+
+    @Override
+    public boolean setMateria(Materia ma) {
+        return this.dao.setMateria(ma);
+    }
+
+    @Override
+    public List<Materia> getMateria(int idx) {
+        return this.dao.getMateria(idx);
+                }
+
+    @Override
+    public boolean updateMateria(Materia ma) {
+        return this.dao.updateMateria(ma);
+    }
+
+    @Override
+    public boolean deleteMateria(Materia ma) {
+    return this.dao.deleteMateria(ma);
+    }
+    @Override
+    public boolean setEstudianteMateria(estMat obj){
+        return this.dao.setEstudianteMateria(obj);
+    }
     
+    @Override
+    public List<estMat> getEstudianteMateria(int idx){
+        return this.dao.getEstudianteMateria(idx);
+    }
     
-    
+    @Override
+    public boolean deleteEstudianteMateria(String idx, String doc){
+        return this.dao.deleteEstudianteMateria(idx, doc);
+    }
     
     
 }

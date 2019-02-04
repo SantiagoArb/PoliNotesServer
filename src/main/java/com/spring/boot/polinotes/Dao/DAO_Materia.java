@@ -8,6 +8,8 @@ package com.spring.boot.polinotes.Dao;
 import com.spring.boot.polinotes.utils.Conexion;
 import com.spring.boot.polinotes.models.Facultad;
 import com.spring.boot.polinotes.models.Materia;
+import com.spring.boot.polinotes.models.Usuario;
+import com.spring.boot.polinotes.models.estMat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +27,7 @@ public class DAO_Materia implements IMateriaDao {
     @Override
     public boolean setMateria(Materia ma) {
         Connection con;
-        String sql = "INSERT INTO MATERIA VALUES(?,?,?,?)";
+        String sql = "INSERT INTO MATERIA VALUES(?,?,?,?,?)";
         try {
             con = Conexion.getConexion();
             try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -33,6 +35,7 @@ public class DAO_Materia implements IMateriaDao {
                 ps.setString(2, ma.getCODIGO_MATERIA());
                 ps.setString(3, ma.getNOMBRE_MATERIA());
                 ps.setInt(4, ma.getFACULTAD_MATERIA());
+                ps.setInt(5, ma.getID_MAESTRO());
                 
                 ps.executeUpdate();
                 ps.close();
@@ -45,34 +48,32 @@ public class DAO_Materia implements IMateriaDao {
         return true; }
 
     @Override
-    public List<Object> getMateria() {
+    public List<Materia> getMateria(int idx) {
         Connection con;
         Statement stm;
         ResultSet rs;
 
-        String sql = "SELECT * FROM v_Facultad ORDER BY NOMBRE_FACULTAD";
+        String sql = "SELECT * FROM MATERIA WHERE ID_MAESTRO = ?";
 
-        List<Object> result = new ArrayList<>();
+        List<Materia> result = new ArrayList<>();
 
         try {
             con = Conexion.getConexion();
-            stm = con.createStatement();
-            rs = stm.executeQuery(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Facultad fac = new Facultad();
                 Materia ma = new Materia();
-
-                fac.setCODIGO_FACULTAD(rs.getString("CODIGO_FACULTAD"));
-                fac.setNOMBRE_FACULTAD(rs.getString("NOMBRE_FACULTAD"));
-                result.add(fac);
-
+                
                 ma.setID_MATERIA(rs.getInt("ID_MATERIA"));
                 ma.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 ma.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
+                ma.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
                 result.add(ma);
             }
 
-            stm.close();
+            ps.close();
             rs.close();
             con.close();
         } catch (SQLException e) {
@@ -89,6 +90,84 @@ public class DAO_Materia implements IMateriaDao {
     @Override
     public boolean deleteMateria(Materia ma) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public boolean setEstudianteMateria(estMat obj) {
+        Connection con;
+        String sql = "INSERT INTO ESTUDIANTES_MATERIA VALUES(?,?,?)";
+        try {
+            con = Conexion.getConexion();
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, obj.getDoc_estudiante());
+                ps.setInt(2, obj.getId_materia());
+                ps.setString(3, obj.getNom_estudiante());
+                
+                ps.executeUpdate();
+                ps.close();
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método setEstudianteMateria: " + e);
+            return false;
+        }
+        return true; 
+    }
+    
+    @Override
+    public List<estMat> getEstudianteMateria(int idx) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
+
+        List<estMat> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                estMat es = new estMat();
+                
+                es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
+                es.setId_materia(rs.getInt(("ID_MATERIA")));
+                es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
+                
+                
+                result.add(es);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+        }
+        return result;
+    }
+    
+     @Override
+    public boolean deleteEstudianteMateria(String idx, String doc) {
+        Connection con;
+
+        String sql = "DELETE FROM ESTUDIANTES_MATERIA WHERE DOC_ESTUDIANTE = ? AND ID_MATERIA=?";
+
+        try {
+            con = Conexion.getConexion();
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, doc);
+                ps.setInt(2, Integer.parseInt(idx));
+                ps.executeUpdate();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
+            return false;
+        }
+        return true;
     }
     
 }

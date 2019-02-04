@@ -10,19 +10,30 @@ package com.spring.boot.polinotes.models;
  * @author scardonas
  */
 public class Materia {
-    int ID_MATERIA;
-    String CODIGO_MATERIA;
-    String NOMBRE_MATERIA;
-    int FACULTAD_MATERIA;
+    private int ID_MATERIA;
+    private String CODIGO_MATERIA;
+    private String NOMBRE_MATERIA;
+    private int FACULTAD_MATERIA;
+    private int ID_MAESTRO;
+    
 
     public Materia() {
     }
 
-    public Materia(int ID_MATERIA, String CODIGO_MATERIA, String NOMBRE_MATERIA, int FACULTAD_MATERIA) {
+    public Materia(int ID_MATERIA, String CODIGO_MATERIA, String NOMBRE_MATERIA, int FACULTAD_MATERIA, int ID_MAESTRO) {
         this.ID_MATERIA = ID_MATERIA;
         this.CODIGO_MATERIA = CODIGO_MATERIA;
         this.NOMBRE_MATERIA = NOMBRE_MATERIA;
         this.FACULTAD_MATERIA = FACULTAD_MATERIA;
+        this.ID_MAESTRO = ID_MAESTRO;
+    }
+
+    public int getID_MAESTRO() {
+        return ID_MAESTRO;
+    }
+
+    public void setID_MAESTRO(int ID_MAESTRO) {
+        this.ID_MAESTRO = ID_MAESTRO;
     }
 
     public int getID_MATERIA() {
