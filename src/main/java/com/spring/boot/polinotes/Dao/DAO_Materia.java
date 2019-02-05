@@ -89,7 +89,22 @@ public class DAO_Materia implements IMateriaDao {
 
     @Override
     public boolean deleteMateria(Materia ma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection con;
+
+        String sql = "DELETE FROM materia WHERE id_materia = ?";
+
+        try {
+            con = Conexion.getConexion();
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, ma.getID_MATERIA());
+                ps.executeUpdate();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
+            return false;
+        }
+        return true;
     }
     
     @Override
@@ -170,4 +185,5 @@ public class DAO_Materia implements IMateriaDao {
         return true;
     }
     
+   
 }

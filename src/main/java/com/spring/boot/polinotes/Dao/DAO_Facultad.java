@@ -48,14 +48,14 @@ public class DAO_Facultad implements IFacultadDao {
     }
 
     @Override
-    public List<Object> getFacultad() {
+    public List<Facultad> getFacultad() {
         Connection con;
         Statement stm;
         ResultSet rs;
 
-        String sql = "SELECT * FROM v_Facultad ORDER BY NOMBRE_FACULTAD";
+        String sql = "SELECT * FROM FACULTAD ORDER BY NOMBRE_FACULTAD";
 
-        List<Object> result = new ArrayList<>();
+        List<Facultad> result = new ArrayList<>();
 
         try {
             con = Conexion.getConexion();
@@ -63,7 +63,6 @@ public class DAO_Facultad implements IFacultadDao {
             rs = stm.executeQuery(sql);
             while (rs.next()) {
                 Facultad fac = new Facultad();
-                Usuario user = new Usuario();
 
                 fac.setID_FACULTAD(rs.getInt("ID_FACULTAD"));
                 fac.setCODIGO_FACULTAD(rs.getString("CODIGO_FACULTAD"));
@@ -71,11 +70,7 @@ public class DAO_Facultad implements IFacultadDao {
                 fac.setDECANO_FACULTAD(rs.getString("DECANO_FACULTAD"));
                 result.add(fac);
 
-                user.setNOMBRE_USER(rs.getString("NOMBRE_USER"));
-                user.setAPELLIDOS_USER(rs.getString("APELLIDOS_USER"));
-                user.setCORREO_USER(rs.getString("CORREO_USER"));
-                user.setCELULAR_USER(rs.getString("CELULAR_USER"));
-                result.add(user);
+                
             }
 
             stm.close();

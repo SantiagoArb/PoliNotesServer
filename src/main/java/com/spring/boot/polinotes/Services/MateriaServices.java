@@ -70,4 +70,12 @@ public class MateriaServices {
         
         return this.facade.deleteEstudianteMateria(idx,doc);
     }
+    
+     @CrossOrigin
+    @RequestMapping(value = "/deletemat", method = RequestMethod.GET)
+    public Boolean deleteMateria(@RequestParam(value="idx") int idx){
+        Materia mat = new Materia();
+        mat.setID_MATERIA(idx);
+        return this.facade.deleteMateria(mat);
+    }
 }

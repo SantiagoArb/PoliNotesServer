@@ -27,9 +27,8 @@ public class FacadeFacultad implements IFacadeFacultad{
         return result; 
     }
     @Override
-    public List<Object> getFacultad() {
-        List<Object> listaFacultad = this.dao.getFacultad();
-        return listaFacultad; 
+    public List<Facultad> getFacultad() {
+        return this.dao.getFacultad(); 
     }
     @Override
     public boolean updateFacultad(Facultad fac){

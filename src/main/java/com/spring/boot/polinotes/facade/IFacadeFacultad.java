@@ -20,7 +20,7 @@ public interface IFacadeFacultad {
     
     public boolean setFacultad(Facultad fac);
     
-    public List<Object> getFacultad();
+    public List<Facultad> getFacultad();
     
     public boolean updateFacultad(Facultad fac);
     
