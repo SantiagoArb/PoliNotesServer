@@ -78,4 +78,12 @@ public class MateriaServices {
         mat.setID_MATERIA(idx);
         return this.facade.deleteMateria(mat);
     }
+    
+    @CrossOrigin
+    @RequestMapping(value="/mymats", method=RequestMethod.GET)
+    public List<estMat> getMisMaterias(@RequestParam(value="doc") String doc){
+        Usuario us = new Usuario();
+        us.setDOC_USER(doc);
+        return this.facade.getMisMaterias(us);
+    }
 }

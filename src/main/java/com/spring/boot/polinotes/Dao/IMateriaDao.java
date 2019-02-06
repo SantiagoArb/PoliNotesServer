@@ -28,4 +28,5 @@ public interface IMateriaDao {
     
     public List<estMat> getEstudianteMateria(int idx);
     public boolean deleteEstudianteMateria(String idx, String doc);
+    public List<estMat> getMisMaterias(Usuario us);
 }

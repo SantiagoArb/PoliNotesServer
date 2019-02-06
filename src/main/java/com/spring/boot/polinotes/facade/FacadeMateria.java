@@ -56,6 +56,10 @@ public class FacadeMateria implements IFacadeMateria{
     public boolean deleteEstudianteMateria(String idx, String doc){
         return this.dao.deleteEstudianteMateria(idx, doc);
     }
+    @Override
+    public List<estMat> getMisMaterias(Usuario us){
+        return this.dao.getMisMaterias(us);
+    }
     
     
 }

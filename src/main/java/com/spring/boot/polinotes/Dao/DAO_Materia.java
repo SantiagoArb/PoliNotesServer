@@ -185,5 +185,46 @@ public class DAO_Materia implements IMateriaDao {
         return true;
     }
     
+    @Override
+    public List<estMat> getMisMaterias(Usuario us) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "SELECT * FROM ESTUDIANTES_MATERIA est, MATERIA mat WHERE est.doc_estudiante = ? and mat.id_materia=est.id_materia";
+
+        List<estMat> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, us.getDOC_USER());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                estMat es = new estMat();
+                Materia mat = new Materia();
+                
+                es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
+                es.setId_materia(rs.getInt(("ID_MATERIA")));
+                es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
+                
+                es.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
+                es.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
+                es.setFACULTAD_MATERIA(rs.getInt("FACULTAD_MATERIA"));
+                es.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
+                es.setID_MATERIA(rs.getInt("ID_MATERIA"));
+                result.add(es);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+            System.out.println(e);
+        }
+        return result;
+    }
+    
    
 }

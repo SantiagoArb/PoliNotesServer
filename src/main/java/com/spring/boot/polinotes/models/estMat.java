@@ -10,7 +10,7 @@ package com.spring.boot.polinotes.models;
  *
  * @author Home
  */
-public class estMat {
+public class estMat extends Materia {
     private int id_materia;
     private String doc_estudiante;
     private String nom_estudiante;

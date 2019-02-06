@@ -25,19 +25,20 @@ public class DAO_Usuario implements IUsuarioDao {
     @Override
     public boolean setUser(Usuario user) {
         Connection con;
-        String sql = "INSERT INTO USUARIO VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO USUARIO VALUES(?,?,?,?,?,?,?,?,?,?)";
         try {
             con = Conexion.getConexion();
             try (PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setString(1, user.getDOC_USER());
-                ps.setString(2, user.getNICK_USER());
-                ps.setString(3, user.getPASSWORD_USER());
-                ps.setString(4, user.getNOMBRE_USER());
-                ps.setString(5, user.getAPELLIDOS_USER());
-                ps.setString(6, user.getCELULAR_USER());
-                ps.setString(7, user.getCORREO_USER());
-                ps.setInt(8, user.getID_PERFIL_USER());
-                ps.setInt(9, user.getESTADO_USER());
+                ps.setInt(1, 1);
+                ps.setString(2, user.getDOC_USER());
+                ps.setString(3, user.getNICK_USER());
+                ps.setString(4, user.getPASSWORD_USER());
+                ps.setString(5, user.getNOMBRE_USER());
+                ps.setString(6, user.getAPELLIDOS_USER());
+                ps.setString(7, user.getCELULAR_USER());
+                ps.setString(8, user.getCORREO_USER());
+                ps.setInt(9, user.getID_PERFIL_USER());
+                ps.setInt(10, user.getESTADO_USER());
                 ps.executeUpdate();
                 ps.close();
             }
@@ -67,6 +68,7 @@ public class DAO_Usuario implements IUsuarioDao {
             rs = stm.executeQuery(sql);
             while (rs.next()) {
                 Usuario u = new Usuario();
+                u.setID_USUARIO(rs.getInt("ID_USUARIO"));
                 u.setDOC_USER(rs.getString("DOC_USER"));
                 u.setNOMBRE_USER(rs.getString("NOMBRE_USER"));
                 u.setAPELLIDOS_USER(rs.getString("APELLIDOS_USER"));
@@ -104,6 +106,7 @@ public class DAO_Usuario implements IUsuarioDao {
               rs =  ps.executeQuery();
                 
             while(rs.next()){
+                result.setID_USUARIO(rs.getInt("ID_USUARIO"));
             result.setDOC_USER(rs.getString("DOC_USER"));
             result.setNOMBRE_USER(rs.getString("NOMBRE_USER"));
             result.setAPELLIDOS_USER(rs.getString("APELLIDOS_USER"));
@@ -246,7 +249,7 @@ public class DAO_Usuario implements IUsuarioDao {
         Usuario result = new Usuario();
         int valor;
         
-        try (CallableStatement cst = con.prepareCall("{call LoginUsuario (?,?,?,?,?,?,?,?,?,?,?)}")) {
+        try (CallableStatement cst = con.prepareCall("{call LoginUsuario (?,?,?,?,?,?,?,?,?,?,?,?)}")) {
 
             cst.setString(1, user.getNICK_USER());
             cst.setString(2, user.getPASSWORD_USER());
@@ -260,6 +263,7 @@ public class DAO_Usuario implements IUsuarioDao {
             cst.registerOutParameter(9, java.sql.Types.INTEGER);
             cst.registerOutParameter(10, java.sql.Types.INTEGER);
             cst.registerOutParameter(11, java.sql.Types.VARCHAR);
+            cst.registerOutParameter(12, java.sql.Types.VARCHAR);
 
             cst.execute();
             
@@ -272,6 +276,7 @@ public class DAO_Usuario implements IUsuarioDao {
             result.setID_PERFIL_USER(cst.getInt(9));
             result.setESTADO_USER(cst.getInt(10));
             result.setNICK_USER(cst.getString(11));
+            result.setID_USUARIO(cst.getInt(12));
 
             cst.close();
 

@@ -13,7 +13,8 @@ CREATE OR REPLACE PROCEDURE LoginUsuario
     L_celular OUT USUARIO.CELULAR_USER%TYPE,
     L_PerfilUsuario OUT USUARIO.ID_PERFIL_USER%TYPE,
     L_Estado OUT USUARIO.ESTADO_USER%TYPE,
-    nick OUT USUARIO.NICK_USER%TYPE
+    nick OUT USUARIO.NICK_USER%TYPE,
+    L_id OUT USUARIO.ID_USUARIO%TYPE
 ) AS
 BEGIN
         SELECT count(*) as Contador, 
@@ -24,7 +25,8 @@ BEGIN
               CELULAR_USER, 
               ID_PERFIL_USER, 
               ESTADO_USER,
-              NICK_USER
+              NICK_USER,
+              ID_USUARIO
         INTO 
         L_aux, 
         L_doc, 
@@ -34,7 +36,8 @@ BEGIN
         L_celular, 
         L_PerfilUsuario, 
         L_Estado,
-        nick
+        nick,
+        L_id
         FROM USUARIO
         WHERE NICK_USER = L_nick AND PASSWORD_USER = L_pass
         GROUP BY 
@@ -45,7 +48,8 @@ BEGIN
               CELULAR_USER, 
               ID_PERFIL_USER, 
               ESTADO_USER,
-              NICK_USER
+              NICK_USER,
+              ID_USUARIO
         ORDER BY DOC_USER;
     EXCEPTION WHEN NO_DATA_FOUND THEN
     L_aux := 0;

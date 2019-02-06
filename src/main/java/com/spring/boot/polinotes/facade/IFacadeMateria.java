@@ -30,4 +30,6 @@ public interface IFacadeMateria {
     
     public boolean deleteEstudianteMateria(String idx, String doc);
     
+    public List<estMat> getMisMaterias(Usuario us);
+    
 }

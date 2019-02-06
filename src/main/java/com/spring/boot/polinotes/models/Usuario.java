@@ -10,6 +10,7 @@ package com.spring.boot.polinotes.models;
  * @author clan-
  */
 public class Usuario { 
+    private int ID_USUARIO;
     private String DOC_USER;
     private String NICK_USER; 
     private String PASSWORD_USER;
@@ -23,7 +24,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String DOC_USER, String NICK_USER, String PASSWORD_USER, String NOMBRE_USER, String APELLIDOS_USER, String CELULAR_USER, String CORREO_USER, int ID_PERFIL_USER, int ESTADO_USER) {
+    public Usuario(int ID_USUARIO, String DOC_USER, String NICK_USER, String PASSWORD_USER, String NOMBRE_USER, String APELLIDOS_USER, String CELULAR_USER, String CORREO_USER, int ID_PERFIL_USER, int ESTADO_USER) {
+        this.ID_USUARIO = ID_USUARIO;
         this.DOC_USER = DOC_USER;
         this.NICK_USER = NICK_USER;
         this.PASSWORD_USER = PASSWORD_USER;
@@ -34,6 +36,16 @@ public class Usuario {
         this.ID_PERFIL_USER = ID_PERFIL_USER;
         this.ESTADO_USER = ESTADO_USER;
     }
+
+    public int getID_USUARIO() {
+        return ID_USUARIO;
+    }
+
+    public void setID_USUARIO(int ID_USUARIO) {
+        this.ID_USUARIO = ID_USUARIO;
+    }
+    
+    
 
     public String getDOC_USER() {
         return DOC_USER;
