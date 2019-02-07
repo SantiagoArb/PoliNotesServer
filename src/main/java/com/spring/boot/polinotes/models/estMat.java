@@ -14,14 +14,24 @@ public class estMat extends Materia {
     private int id_materia;
     private String doc_estudiante;
     private String nom_estudiante;
+    private int id_usuario;
 
-    public estMat(int id_materia, String doc_estudiante, String nom_estudiante) {
+    public estMat(int id_materia, String doc_estudiante, String nom_estudiante, int id) {
         this.id_materia = id_materia;
         this.doc_estudiante = doc_estudiante;
         this.nom_estudiante = nom_estudiante;
+        this.id_usuario = id;
     }
 
     public estMat() {
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public int getId_materia() {

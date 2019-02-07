@@ -5,6 +5,7 @@
  */
 package com.spring.boot.polinotes.Dao;
 
+import com.spring.boot.polinotes.models.Concertacion;
 import java.util.List;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
@@ -29,4 +30,7 @@ public interface IMateriaDao {
     public List<estMat> getEstudianteMateria(int idx);
     public boolean deleteEstudianteMateria(String idx, String doc);
     public List<estMat> getMisMaterias(Usuario us);
+    public void callLigarUserEstudiante();
+    public boolean setConcertacion(Concertacion con);
+    public List<Materia> getConcertacionMateria(int idx);
 }

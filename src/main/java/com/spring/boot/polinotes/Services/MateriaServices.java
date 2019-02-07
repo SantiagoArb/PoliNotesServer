@@ -10,6 +10,7 @@ import com.spring.boot.polinotes.facade.FacadeMateria;
 import com.spring.boot.polinotes.facade.FacadeUsuario;
 import com.spring.boot.polinotes.facade.IFacadeMateria;
 import com.spring.boot.polinotes.facade.IFacadeUsuario;
+import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
@@ -85,5 +86,20 @@ public class MateriaServices {
         Usuario us = new Usuario();
         us.setDOC_USER(doc);
         return this.facade.getMisMaterias(us);
+    }
+    
+     @CrossOrigin
+    @RequestMapping(value = "/setconcer", method = RequestMethod.POST)
+    public Boolean setConcertacion(@RequestBody String concert){
+        
+         Concertacion data = new Gson().fromJson(concert, Concertacion.class);
+        System.out.println(concert);
+        return this.facade.setConcertacion(data);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value="/getconcert", method=RequestMethod.GET)
+    public List<Materia> getConcertacion(@RequestParam(value="idx") int idx){
+        return this.facade.getConcertacionMateria(idx);
     }
 }

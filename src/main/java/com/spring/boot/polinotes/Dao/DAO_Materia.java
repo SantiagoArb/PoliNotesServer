@@ -5,16 +5,19 @@
  */
 package com.spring.boot.polinotes.Dao;
 
+import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.utils.Conexion;
 import com.spring.boot.polinotes.models.Facultad;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +57,7 @@ public class DAO_Materia implements IMateriaDao {
         ResultSet rs;
 
         String sql = "SELECT * FROM MATERIA WHERE ID_MAESTRO = ?";
+        //String sql = "SELECT * FROM MATERIA mat, CONCERTACION co where mat.id_materia=co.id_materia and mat.id_maestro = ?";
 
         List<Materia> result = new ArrayList<>();
 
@@ -70,6 +74,12 @@ public class DAO_Materia implements IMateriaDao {
                 ma.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 ma.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
                 ma.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
+               /* ma.setId_concertacion(rs.getInt("ID_CONCERTACION"));
+                ma.setNom_concertacion(rs.getString("NOMBRE_CON"));
+                ma.setValor_porcentual(rs.getDouble("PORCENTAJE_CON"));
+                ma.setDoc_maestro(rs.getString("DOC_MAESTRO"));
+                ma.setId_usuario(rs.getInt("ID_USUARIO"));*/
+                
                 result.add(ma);
             }
 
@@ -110,13 +120,14 @@ public class DAO_Materia implements IMateriaDao {
     @Override
     public boolean setEstudianteMateria(estMat obj) {
         Connection con;
-        String sql = "INSERT INTO ESTUDIANTES_MATERIA VALUES(?,?,?)";
+        String sql = "INSERT INTO ESTUDIANTES_MATERIA VALUES(?,?,?,?)";
         try {
             con = Conexion.getConexion();
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setString(1, obj.getDoc_estudiante());
                 ps.setInt(2, obj.getId_materia());
                 ps.setString(3, obj.getNom_estudiante());
+                ps.setNull(4,Types.INTEGER);
                 
                 ps.executeUpdate();
                 ps.close();
@@ -126,6 +137,7 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println("Error: Clase DAO_Materia, método setEstudianteMateria: " + e);
             return false;
         }
+        this.callLigarUserEstudiante();
         return true; 
     }
     
@@ -207,6 +219,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
                 es.setId_materia(rs.getInt(("ID_MATERIA")));
                 es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
+                es.setId_usuario(rs.getInt("ID_USUARIO"));
                 
                 es.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 es.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
@@ -225,6 +238,85 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
-    
+    @Override
+   public void callLigarUserEstudiante(){
+        Connection con;
+        con = Conexion.getConexion();
+        
+        try (CallableStatement cst = con.prepareCall("{call LigarUsuarioEstudiante (?)}")) {
+            cst.registerOutParameter(1, java.sql.Types.INTEGER);
+            
+            cst.execute();
+            cst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+            
+        }
+    }
    
+   @Override
+    public boolean setConcertacion(Concertacion co) {
+        Connection con;
+        String sql = "INSERT INTO CONCERTACION VALUES(?,?,?,?,?,?)";
+        try {
+            con = Conexion.getConexion();
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, 1);
+                ps.setString(2, co.getNom_concertacion());
+                ps.setDouble(3, co.getValor_porcentual());
+                ps.setString(4, co.getDoc_maestro());
+                ps.setInt(5, co.getId_materia());
+                ps.setInt(6, co.getId_usuario());
+                
+                ps.executeUpdate();
+                ps.close();
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método setConcertacion: " + e);
+            return false;
+        }
+        return true; 
+    }
+    
+    
+    @Override
+    public List<Materia> getConcertacionMateria(int idx) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "select *From Concertacion where id_materia = ?";
+        //String sql = "SELECT * FROM MATERIA mat, CONCERTACION co where mat.id_materia=co.id_materia and mat.id_maestro = ?";
+
+        List<Materia> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Facultad fac = new Facultad();
+                Materia ma = new Materia();
+                
+                
+                ma.setId_concertacion(rs.getInt("ID_CONCERTACION"));
+                ma.setNom_concertacion(rs.getString("NOMBRE_CON"));
+                ma.setValor_porcentual(rs.getDouble("PORCENTAJE_CON"));
+                ma.setDoc_maestro(rs.getString("DOC_MAESTRO"));
+                ma.setId_usuario(rs.getInt("ID_USUARIO"));
+                
+                result.add(ma);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+        }
+        return result;
+    }
 }

@@ -47,6 +47,7 @@ public class DAO_Usuario implements IUsuarioDao {
             System.out.println("Error: Clase DAO_Usuario, método registrar: " + e);
             return false;
         }
+        this.callLigarUserEstudiante();
         return true;
     }
 
@@ -330,5 +331,21 @@ public class DAO_Usuario implements IUsuarioDao {
             return true;
         }
         return false;
+    }
+    @Override
+    public void callLigarUserEstudiante(){
+        Connection con;
+        con = Conexion.getConexion();
+        
+        try (CallableStatement cst = con.prepareCall("{call LigarUsuarioEstudiante (?)}")) {
+            cst.registerOutParameter(1, java.sql.Types.INTEGER);
+            cst.execute();
+            
+            cst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+            
+        }
     }
 }

@@ -32,4 +32,6 @@ public interface IUsuarioDao {
     public boolean P_ValidUser(String tipo, Usuario user);
     
     public Usuario getInfoUser(String user);
+    
+    public void callLigarUserEstudiante();
 }

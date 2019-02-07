@@ -7,6 +7,7 @@ package com.spring.boot.polinotes.facade;
 
 import com.spring.boot.polinotes.Dao.DAO_Materia;
 import com.spring.boot.polinotes.Dao.IMateriaDao;
+import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
@@ -61,5 +62,15 @@ public class FacadeMateria implements IFacadeMateria{
         return this.dao.getMisMaterias(us);
     }
     
+    @Override
+    public boolean setConcertacion(Concertacion con) {
+        return this.dao.setConcertacion(con);
+    }
+    
+    
+    @Override
+    public List<Materia> getConcertacionMateria(int idx) {
+        return this.dao.getConcertacionMateria(idx);
+    }
     
 }
