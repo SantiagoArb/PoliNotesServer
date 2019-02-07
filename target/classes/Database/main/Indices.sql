@@ -26,3 +26,8 @@ DROP SEQUENCE SQ_ID_USUARIO;
 create sequence SQ_ID_USUARIO
 start with 1
 increment by 1;
+
+DROP SEQUENCE SQ_ID_CONCERTACION;
+create sequence SQ_ID_CONCERTACION
+start with 1
+increment by 1;

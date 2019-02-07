@@ -10,6 +10,7 @@ com\spring\boot\polinotes\Services\GreetingController.class
 com\spring\boot\polinotes\models\Usuario.class
 com\spring\boot\polinotes\Services\UsuarioServices.class
 com\spring\boot\polinotes\Dao\IFacultadDao.class
+com\spring\boot\polinotes\models\Concertacion.class
 com\spring\boot\polinotes\Services\FacultadServices.class
 com\spring\boot\polinotes\heroe.class
 com\spring\boot\polinotes\Services\Tipo_PerfilServices.class

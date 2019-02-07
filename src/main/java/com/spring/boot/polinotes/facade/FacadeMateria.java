@@ -49,8 +49,8 @@ public class FacadeMateria implements IFacadeMateria{
     }
     
     @Override
-    public List<estMat> getEstudianteMateria(int idx){
-        return this.dao.getEstudianteMateria(idx);
+    public List<estMat> getEstudianteMateria(int idx, int id_con){
+        return this.dao.getEstudianteMateria(idx,id_con);
     }
     
     @Override

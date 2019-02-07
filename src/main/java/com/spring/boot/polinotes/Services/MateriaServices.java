@@ -61,12 +61,12 @@ public class MateriaServices {
     }
     @CrossOrigin
     @RequestMapping(value="/getestmat", method=RequestMethod.GET)
-    public List<estMat> getEstudianteMateria(@RequestParam(value="idx") int idx){
-        return this.facade.getEstudianteMateria(idx);
+    public List<estMat> getEstudianteMateria(@RequestParam("idx") int idx,@RequestParam("id_con") int id_con){
+        return this.facade.getEstudianteMateria(idx,id_con);
     }
     
      @CrossOrigin
-    @RequestMapping(value = "/deletestmat", method = RequestMethod.GET)
+    @RequestMapping(value = "/deletestmat")
     public Boolean deleteEstudianteMateria(@RequestParam(value="doc") String doc,@RequestParam(value="idx")String idx){
         
         return this.facade.deleteEstudianteMateria(idx,doc);

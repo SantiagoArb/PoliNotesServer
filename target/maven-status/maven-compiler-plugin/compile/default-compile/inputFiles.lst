@@ -25,6 +25,7 @@ C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\sprin
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\Logs.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\Facultad.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\ITipo_PerfilDao.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\Concertacion.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeMateria.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\DAO_Facultad.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeLogs.java

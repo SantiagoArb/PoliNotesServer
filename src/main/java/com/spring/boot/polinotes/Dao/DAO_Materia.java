@@ -142,19 +142,20 @@ public class DAO_Materia implements IMateriaDao {
     }
     
     @Override
-    public List<estMat> getEstudianteMateria(int idx) {
+    public List<estMat> getEstudianteMateria(int idx,int id_con) {
         Connection con;
         Statement stm;
         ResultSet rs;
 
-        String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
-
+       // String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
+        String sql = "select * from nota_estudiante nt inner join estudiantes_materia est on est.doc_estudiante=nt.doc_est where id_con = ? and est.id_materia=?";
         List<estMat> result = new ArrayList<>();
 
         try {
             con = Conexion.getConexion();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idx);
+            ps.setInt(1, id_con);
+            ps.setInt(2, idx);
             rs = ps.executeQuery();
             while (rs.next()) {
                 estMat es = new estMat();
@@ -162,6 +163,11 @@ public class DAO_Materia implements IMateriaDao {
                 es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
                 es.setId_materia(rs.getInt(("ID_MATERIA")));
                 es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
+                es.setId_usuario(rs.getInt("ID_USUARIO"));
+                es.setId_nota(rs.getInt("ID_NOTA"));
+                es.setNota(rs.getDouble("NOTA_ES"));
+                es.setId_con(rs.getInt("ID_CON"));
+                
                 
                 
                 result.add(es);
@@ -225,7 +231,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
                 es.setFACULTAD_MATERIA(rs.getInt("FACULTAD_MATERIA"));
                 es.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
-                es.setID_MATERIA(rs.getInt("ID_MATERIA"));
+                es.setId_materia(rs.getInt("ID_MATERIA"));
                 result.add(es);
             }
 
