@@ -138,7 +138,7 @@ public class DAO_Materia implements IMateriaDao {
             return false;
         }
         this.callLigarUserEstudiante();
-        this.TareasetEstudianteToNotas();
+        this.TareasetEstudianteToNotas(obj.getId_materia());
         return true; 
     }
     
@@ -284,7 +284,7 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println("Error: Clase DAO_Materia, método setConcertacion: " + e);
             return false;
         }
-        this.TareasetEstudianteToNotas();
+        this.TareasetEstudianteToNotas(co.getId_materia());
         return true; 
     }
     
@@ -350,12 +350,12 @@ public class DAO_Materia implements IMateriaDao {
     }
    
    @Override
-   public boolean TareasetEstudianteToNotas(){
+   public boolean TareasetEstudianteToNotas(int id_materia){
         Connection con;
         con = Conexion.getConexion();
         
         try (CallableStatement cst = con.prepareCall("{call setEstudianteToNotas (?)}")) {
-            cst.setInt(1, 1);
+            cst.setInt(1, id_materia);
             
             cst.execute();
             cst.close();
@@ -365,6 +365,48 @@ public class DAO_Materia implements IMateriaDao {
             return false;
         }
         return true;
+    }
+   
+   @Override
+    public List<estMat> getMisNotas(estMat datos) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "select * from nota_estudiante nt inner join concertacion on nt.ID_CON = concertacion.ID_CONCERTACION where doc_est = ? and concertacion.ID_MATERIA=?";
+
+        List<estMat> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, datos.getDoc_estudiante());
+            ps.setInt(2, datos.getId_materia());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                estMat es = new estMat();
+                Materia mat = new Materia();
+                
+                es.setId_nota(rs.getInt("ID_NOTA"));
+                es.setNota(rs.getDouble("NOTA_ES"));
+                es.setId_con(rs.getInt("ID_CON"));
+                es.setDoc_estudiante(rs.getString("DOC_EST"));
+                es.setNombre_conertacion(rs.getString("NOMBRE_CON"));
+                es.setPorcentaje(rs.getDouble("PORCENTAJE_CON"));
+                es.setId_materia(rs.getInt("ID_MATERIA"));
+                es.setId_usuario(rs.getInt("ID_USUARIO"));
+                
+                result.add(es);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+            System.out.println(e);
+        }
+        return result;
     }
      
 }

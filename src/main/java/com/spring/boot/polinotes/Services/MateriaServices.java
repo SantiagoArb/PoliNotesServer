@@ -111,4 +111,13 @@ public class MateriaServices {
         System.out.println(data);
         return this.facade.callSetNota(data);
     }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/getnotas", method = RequestMethod.POST)
+    public List<estMat> getMisNota(@RequestBody String obj){
+        
+         estMat data = new Gson().fromJson(obj, estMat.class);
+        System.out.println(data);
+        return this.facade.getMisNotas(data);
+    }
 }

@@ -22,6 +22,8 @@ public class estMat {
      private String NOMBRE_MATERIA;
      private int FACULTAD_MATERIA;
      private int ID_MAESTRO;
+     private String nombre_conertacion;
+     private double porcentaje;
 
     public estMat(int id_materia, String doc_estudiante, String nom_estudiante, int id) {
         this.id_materia = id_materia;
@@ -31,6 +33,22 @@ public class estMat {
     }
 
     public estMat() {
+    }
+
+    public String getNombre_conertacion() {
+        return nombre_conertacion;
+    }
+
+    public double getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(double porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    public void setNombre_conertacion(String nombre_conertacion) {
+        this.nombre_conertacion = nombre_conertacion;
     }
 
     public double getNota() {

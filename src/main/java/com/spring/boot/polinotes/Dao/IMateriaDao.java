@@ -34,5 +34,6 @@ public interface IMateriaDao {
     public boolean setConcertacion(Concertacion con);
     public List<Materia> getConcertacionMateria(int idx);
     public boolean callSetNota(estMat nota);
-    public boolean TareasetEstudianteToNotas();
+    public boolean TareasetEstudianteToNotas(int id_materia);
+    public List<estMat> getMisNotas(estMat datos);
 }

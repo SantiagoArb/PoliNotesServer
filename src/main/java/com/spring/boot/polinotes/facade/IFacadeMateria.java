@@ -37,5 +37,6 @@ public interface IFacadeMateria {
     public List<Materia> getConcertacionMateria(int idx);
     
      public boolean callSetNota(estMat nota);
+     public List<estMat> getMisNotas(estMat datos);
     
 }

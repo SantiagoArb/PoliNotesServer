@@ -141,4 +141,29 @@ END IF;
 
 END;
 /
+
+
+
+CREATE OR REPLACE PROCEDURE setEstudianteToNotas(In_id_materia MATERIA.ID_MATERIA%TYPE) IS
+
+
+cursor cur_con is 
+        select * from concertacion where id_materia=In_id_materia;
+begin
+for i in cur_con
+loop
+
+MERGE INTO nota_estudiante n
+    USING estudiantes_materia est
+    
+    ON (n.DOC_EST = est.doc_estudiante and i.ID_CONCERTACION = n.id_con)
+  
+  WHEN NOT MATCHED THEN
+    INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST)
+    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante);
+
+end loop;   
+
+ end;
+    /
 --/

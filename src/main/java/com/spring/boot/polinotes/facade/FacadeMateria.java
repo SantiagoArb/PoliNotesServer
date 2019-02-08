@@ -78,4 +78,8 @@ public class FacadeMateria implements IFacadeMateria{
          return this.dao.callSetNota(nota);
      }
     
+    @Override
+    public List<estMat> getMisNotas(estMat datos){
+        return this.dao.getMisNotas(datos);
+    }
 }
