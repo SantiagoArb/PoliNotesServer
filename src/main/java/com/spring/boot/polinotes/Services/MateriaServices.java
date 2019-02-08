@@ -102,4 +102,13 @@ public class MateriaServices {
     public List<Materia> getConcertacion(@RequestParam(value="idx") int idx){
         return this.facade.getConcertacionMateria(idx);
     }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/setnota", method = RequestMethod.POST)
+    public Boolean setNota(@RequestBody String obj){
+        
+         estMat data = new Gson().fromJson(obj, estMat.class);
+        System.out.println(data);
+        return this.facade.callSetNota(data);
+    }
 }

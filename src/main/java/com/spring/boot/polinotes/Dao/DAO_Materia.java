@@ -138,6 +138,7 @@ public class DAO_Materia implements IMateriaDao {
             return false;
         }
         this.callLigarUserEstudiante();
+        this.TareasetEstudianteToNotas();
         return true; 
     }
     
@@ -283,6 +284,7 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println("Error: Clase DAO_Materia, método setConcertacion: " + e);
             return false;
         }
+        this.TareasetEstudianteToNotas();
         return true; 
     }
     
@@ -325,4 +327,44 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
+    
+     @Override
+   public boolean callSetNota(estMat nota){
+        Connection con;
+        con = Conexion.getConexion();
+        
+        try (CallableStatement cst = con.prepareCall("{call setNota (?,?,?,?)}")) {
+            cst.setNull(1, Types.INTEGER);
+            cst.setDouble(2, nota.getNota());
+            cst.setInt(3, nota.getId_con());
+            cst.setString(4, nota.getDoc_estudiante());
+            
+            cst.execute();
+            cst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+            return false;
+        }
+        return true;
+    }
+   
+   @Override
+   public boolean TareasetEstudianteToNotas(){
+        Connection con;
+        con = Conexion.getConexion();
+        
+        try (CallableStatement cst = con.prepareCall("{call setEstudianteToNotas (?)}")) {
+            cst.setInt(1, 1);
+            
+            cst.execute();
+            cst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+            return false;
+        }
+        return true;
+    }
+     
 }

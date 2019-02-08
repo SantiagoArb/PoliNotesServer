@@ -117,3 +117,28 @@ BEGIN
 END;
 /
 --/
+
+
+CREATE OR REPLACE PROCEDURE setNota(
+                                    In_id  NOTA_ESTUDIANTE.ID_NOTA%TYPE,
+                                    In_nota  NOTA_ESTUDIANTE.NOTA_ES%TYPE,
+                                    In_id_con  NOTA_ESTUDIANTE.ID_CON%TYPE,
+                                    In_doc  NOTA_ESTUDIANTE.DOC_EST%TYPE
+
+                                    ) IS
+                                    
+ RESULTADO NUMBER;
+BEGIN
+
+   SELECT count(*) INTO RESULTADO FROM NOTA_ESTUDIANTE WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
+IF RESULTADO = 1 THEN
+    UPDATE NOTA_ESTUDIANTE SET NOTA_ES = In_nota WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
+ELSE
+    IF RESULTADO = 0 THEN
+        INSERT INTO NOTA_ESTUDIANTE VALUES(In_id,In_nota,In_id_con,In_doc);
+    END IF;
+END IF;
+
+END;
+/
+--/

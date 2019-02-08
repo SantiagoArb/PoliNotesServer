@@ -33,4 +33,6 @@ public interface IMateriaDao {
     public void callLigarUserEstudiante();
     public boolean setConcertacion(Concertacion con);
     public List<Materia> getConcertacionMateria(int idx);
+    public boolean callSetNota(estMat nota);
+    public boolean TareasetEstudianteToNotas();
 }

@@ -73,4 +73,9 @@ public class FacadeMateria implements IFacadeMateria{
         return this.dao.getConcertacionMateria(idx);
     }
     
+    @Override
+     public boolean callSetNota(estMat nota){
+         return this.dao.callSetNota(nota);
+     }
+    
 }
