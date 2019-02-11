@@ -123,7 +123,8 @@ CREATE OR REPLACE PROCEDURE setNota(
                                     In_id  NOTA_ESTUDIANTE.ID_NOTA%TYPE,
                                     In_nota  NOTA_ESTUDIANTE.NOTA_ES%TYPE,
                                     In_id_con  NOTA_ESTUDIANTE.ID_CON%TYPE,
-                                    In_doc  NOTA_ESTUDIANTE.DOC_EST%TYPE
+                                    In_doc  NOTA_ESTUDIANTE.DOC_EST%TYPE,
+                                    In_com  NOTA_ESTUDIANTE.COMENTARIO%TYPE
 
                                     ) IS
                                     
@@ -132,10 +133,10 @@ BEGIN
 
    SELECT count(*) INTO RESULTADO FROM NOTA_ESTUDIANTE WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
 IF RESULTADO = 1 THEN
-    UPDATE NOTA_ESTUDIANTE SET NOTA_ES = In_nota WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
+    UPDATE NOTA_ESTUDIANTE SET NOTA_ES = In_nota, COMENTARIO = In_com WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
 ELSE
     IF RESULTADO = 0 THEN
-        INSERT INTO NOTA_ESTUDIANTE VALUES(In_id,In_nota,In_id_con,In_doc);
+        INSERT INTO NOTA_ESTUDIANTE VALUES(In_id,In_nota,In_id_con,In_doc,In_com);
     END IF;
 END IF;
 
@@ -159,11 +160,29 @@ MERGE INTO nota_estudiante n
     ON (n.DOC_EST = est.doc_estudiante and i.ID_CONCERTACION = n.id_con)
 
   WHEN NOT MATCHED THEN
-    INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST)
-    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante);
+    INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST,n.COMENTARIO)
+    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante,'');
 
 end loop;
 
  end;
     /
 --/
+
+create or replace PROCEDURE calcularDefinitiva
+                                              (
+                                               in_doc  IN estudiantes_materia.doc_estudiante%TYPE,
+                                               in_id_materia IN estudiantes_materia.id_materia%TYPE,
+                                               out_definitiva out number
+                                               ) AS
+nota number;
+CURSOR cur_salida IS SELECT * from nota_estudiante nt inner join concertacion on nt.ID_CON = concertacion.ID_CONCERTACION 
+        where doc_est = in_doc and concertacion.ID_MATERIA=in_id_materia;
+begin
+out_definitiva:=0;
+for indx in cur_salida
+loop
+nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
+out_definitiva := out_definitiva + nota;
+end loop;
+end calcularDefinitiva;

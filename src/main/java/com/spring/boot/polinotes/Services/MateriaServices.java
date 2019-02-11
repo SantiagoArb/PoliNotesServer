@@ -120,4 +120,19 @@ public class MateriaServices {
         System.out.println(data);
         return this.facade.getMisNotas(data);
     }
+    
+    @CrossOrigin
+    @RequestMapping(value="/concertado", method=RequestMethod.GET)
+    public int getValorConcertado(@RequestParam(value="idx") int idx){
+        return this.facade.getValorConcertado(idx);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/updconcertacion", method = RequestMethod.POST)
+    public boolean updateConcertacion(@RequestBody String obj){
+        
+         Concertacion data = new Gson().fromJson(obj, Concertacion.class);
+        System.out.println(data);
+        return this.facade.updateConcertacion(data);
+    }
 }

@@ -110,6 +110,7 @@ public class DAO_Materia implements IMateriaDao {
                 ps.executeUpdate();
                 ps.close();
             }
+            con.close();
         } catch (SQLException e) {
             System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
             return false;
@@ -168,7 +169,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setId_nota(rs.getInt("ID_NOTA"));
                 es.setNota(rs.getDouble("NOTA_ES"));
                 es.setId_con(rs.getInt("ID_CON"));
-                
+                es.setComentario(rs.getString("COMENTARIO"));
                 
                 
                 result.add(es);
@@ -197,6 +198,7 @@ public class DAO_Materia implements IMateriaDao {
                 ps.executeUpdate();
                 ps.close();
             }
+            con.close();
         } catch (SQLException e) {
             System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
             return false;
@@ -255,6 +257,7 @@ public class DAO_Materia implements IMateriaDao {
             
             cst.execute();
             cst.close();
+           con.close();
 
         } catch (SQLException ex) {
             System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
@@ -333,14 +336,16 @@ public class DAO_Materia implements IMateriaDao {
         Connection con;
         con = Conexion.getConexion();
         
-        try (CallableStatement cst = con.prepareCall("{call setNota (?,?,?,?)}")) {
+        try (CallableStatement cst = con.prepareCall("{call setNota (?,?,?,?,?)}")) {
             cst.setNull(1, Types.INTEGER);
             cst.setDouble(2, nota.getNota());
             cst.setInt(3, nota.getId_con());
             cst.setString(4, nota.getDoc_estudiante());
+            cst.setString(5, nota.getComentario());
             
             cst.execute();
             cst.close();
+            con.close();
 
         } catch (SQLException ex) {
             System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
@@ -395,7 +400,8 @@ public class DAO_Materia implements IMateriaDao {
                 es.setPorcentaje(rs.getDouble("PORCENTAJE_CON"));
                 es.setId_materia(rs.getInt("ID_MATERIA"));
                 es.setId_usuario(rs.getInt("ID_USUARIO"));
-                
+                es.setComentario(rs.getString("COMENTARIO"));
+                es.setDefinitiva(this.CalcularDefinitiva(datos.getId_materia(),datos.getDoc_estudiante()));
                 result.add(es);
             }
 
@@ -407,6 +413,79 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println(e);
         }
         return result;
+    }
+    
+    @Override
+   public double CalcularDefinitiva(int id_materia, String documento){
+        Connection con;
+        con = Conexion.getConexion();
+        double definitiva = 0;
+        try (CallableStatement cst = con.prepareCall("{call calcularDefinitiva (?,?,?)}")) {
+            cst.setString(1, documento);
+            cst.setInt(2, id_materia);
+            cst.registerOutParameter(3, java.sql.Types.DOUBLE);
+            
+            cst.execute();
+            definitiva = cst.getDouble(3);
+            cst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+        }
+        return definitiva;
+    }
+   
+   @Override
+    public int getValorConcertado(int idx) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "select sum(porcentaje_con) as concertado from concertacion where id_materia=?";
+        //String sql = "SELECT * FROM MATERIA mat, CONCERTACION co where mat.id_materia=co.id_materia and mat.id_maestro = ?";
+
+        int result =0;
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt("concertado");
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+        }
+        return result;
+    }
+    @Override
+    public boolean updateConcertacion(Concertacion concert){
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+        
+        String sql = "update concertacion set NOMBRE_CON = ?, PORCENTAJE_CON = ? WHERE ID_CONCERTACION=?";
+        try {
+            con = Conexion.getConexion();
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                
+                ps.setString(1, concert.getNom_concertacion());
+                ps.setDouble(2, concert.getValor_porcentual());
+                ps.setInt(3,concert.getId_concertacion());
+                ps.executeUpdate();
+                ps.close();
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método updateConcertacion");
+            return false;
+        }
+        return true;
     }
      
 }

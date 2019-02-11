@@ -82,4 +82,14 @@ public class FacadeMateria implements IFacadeMateria{
     public List<estMat> getMisNotas(estMat datos){
         return this.dao.getMisNotas(datos);
     }
+    
+    @Override
+    public int getValorConcertado(int idx){
+        return this.dao.getValorConcertado(idx);
+    }
+    
+    @Override
+    public boolean updateConcertacion(Concertacion concert){
+        return this.dao.updateConcertacion(concert);
+    }
 }

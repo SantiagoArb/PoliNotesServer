@@ -36,4 +36,7 @@ public interface IMateriaDao {
     public boolean callSetNota(estMat nota);
     public boolean TareasetEstudianteToNotas(int id_materia);
     public List<estMat> getMisNotas(estMat datos);
+    public double CalcularDefinitiva(int id_materia, String documento);
+    public int getValorConcertado(int idx);
+    public boolean updateConcertacion(Concertacion concert);
 }

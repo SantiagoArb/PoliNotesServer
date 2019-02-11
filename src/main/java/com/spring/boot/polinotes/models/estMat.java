@@ -24,6 +24,8 @@ public class estMat {
      private int ID_MAESTRO;
      private String nombre_conertacion;
      private double porcentaje;
+    private double definitiva;
+    private String comentario;
 
     public estMat(int id_materia, String doc_estudiante, String nom_estudiante, int id) {
         this.id_materia = id_materia;
@@ -33,6 +35,22 @@ public class estMat {
     }
 
     public estMat() {
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public double getDefinitiva() {
+        return definitiva;
+    }
+
+    public void setDefinitiva(double definitiva) {
+        this.definitiva = definitiva;
     }
 
     public String getNombre_conertacion() {

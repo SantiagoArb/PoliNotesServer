@@ -144,26 +144,45 @@ END;
 
 
 
-CREATE OR REPLACE PROCEDURE setEstudianteToNotas(In_id_materia MATERIA.ID_MATERIA%TYPE) IS
+create or replace PROCEDURE setEstudianteToNotas(In_id_materia MATERIA.ID_MATERIA%TYPE) IS
 
 
-cursor cur_con is 
-        select * from concertacion where id_materia=In_id_materia;
+cursor cur_con is
+        select * from concertacion where ID_MATERIA=In_id_materia;
 begin
 for i in cur_con
 loop
 
 MERGE INTO nota_estudiante n
-    USING estudiantes_materia est
-    
+    USING (select * from estudiantes_materia where id_materia = In_id_materia) est
+
     ON (n.DOC_EST = est.doc_estudiante and i.ID_CONCERTACION = n.id_con)
-  
+
   WHEN NOT MATCHED THEN
     INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST)
     VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante);
 
-end loop;   
+end loop;
 
  end;
     /
 --/
+
+create or replace PROCEDURE calcularDefinitiva
+                                              (
+                                               in_doc  IN estudiantes_materia.doc_estudiante%TYPE,
+                                               in_id_materia IN estudiantes_materia.id_materia%TYPE,
+                                               out_definitiva out number
+                                               ) AS
+nota number;
+CURSOR cur_salida IS SELECT * from nota_estudiante nt inner join concertacion on nt.ID_CON = concertacion.ID_CONCERTACION 
+        where doc_est = in_doc and concertacion.ID_MATERIA=in_id_materia;
+begin
+out_definitiva:=0;
+for indx in cur_salida
+loop
+nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
+out_definitiva := out_definitiva + nota;
+DBMS_OUTPUT.PUT_LINE(out_definitiva);
+end loop;
+end calcularDefinitiva;
