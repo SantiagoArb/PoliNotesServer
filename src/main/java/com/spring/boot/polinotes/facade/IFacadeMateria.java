@@ -9,6 +9,7 @@ import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,5 +41,9 @@ public interface IFacadeMateria {
      public List<estMat> getMisNotas(estMat datos);
      public int getValorConcertado(int idx);
      public boolean updateConcertacion(Concertacion concert);
+     
+     public boolean SaveAllCalifications(List<estMat> data);
+     
+     public boolean deleteConcertacion(estMat concertacion);
     
 }

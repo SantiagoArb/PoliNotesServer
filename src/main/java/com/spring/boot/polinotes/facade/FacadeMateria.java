@@ -11,6 +11,7 @@ import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,5 +92,13 @@ public class FacadeMateria implements IFacadeMateria{
     @Override
     public boolean updateConcertacion(Concertacion concert){
         return this.dao.updateConcertacion(concert);
+    }
+    @Override
+    public boolean SaveAllCalifications(List<estMat> notas){
+        return this.dao.SaveAllCalifications(notas);
+    }
+    @Override
+    public boolean deleteConcertacion(estMat concertacion){
+        return this.dao.deleteConcertacion(concertacion);
     }
 }

@@ -39,7 +39,7 @@ public class DAO_Materia implements IMateriaDao {
                 ps.setString(3, ma.getNOMBRE_MATERIA());
                 ps.setInt(4, ma.getFACULTAD_MATERIA());
                 ps.setInt(5, ma.getID_MAESTRO());
-                
+
                 ps.executeUpdate();
                 ps.close();
             }
@@ -48,7 +48,8 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println("Error: Clase DAO_Materia, método registrar: " + e);
             return false;
         }
-        return true; }
+        return true;
+    }
 
     @Override
     public List<Materia> getMateria(int idx) {
@@ -69,17 +70,17 @@ public class DAO_Materia implements IMateriaDao {
             while (rs.next()) {
                 Facultad fac = new Facultad();
                 Materia ma = new Materia();
-                
+
                 ma.setID_MATERIA(rs.getInt("ID_MATERIA"));
                 ma.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 ma.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
                 ma.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
-               /* ma.setId_concertacion(rs.getInt("ID_CONCERTACION"));
-                ma.setNom_concertacion(rs.getString("NOMBRE_CON"));
-                ma.setValor_porcentual(rs.getDouble("PORCENTAJE_CON"));
-                ma.setDoc_maestro(rs.getString("DOC_MAESTRO"));
-                ma.setId_usuario(rs.getInt("ID_USUARIO"));*/
-                
+                /* ma.setId_concertacion(rs.getInt("ID_CONCERTACION"));
+                 ma.setNom_concertacion(rs.getString("NOMBRE_CON"));
+                 ma.setValor_porcentual(rs.getDouble("PORCENTAJE_CON"));
+                 ma.setDoc_maestro(rs.getString("DOC_MAESTRO"));
+                 ma.setId_usuario(rs.getInt("ID_USUARIO"));*/
+
                 result.add(ma);
             }
 
@@ -117,7 +118,7 @@ public class DAO_Materia implements IMateriaDao {
         }
         return true;
     }
-    
+
     @Override
     public boolean setEstudianteMateria(estMat obj) {
         Connection con;
@@ -128,8 +129,8 @@ public class DAO_Materia implements IMateriaDao {
                 ps.setString(1, obj.getDoc_estudiante());
                 ps.setInt(2, obj.getId_materia());
                 ps.setString(3, obj.getNom_estudiante());
-                ps.setNull(4,Types.INTEGER);
-                
+                ps.setNull(4, Types.INTEGER);
+
                 ps.executeUpdate();
                 ps.close();
             }
@@ -140,16 +141,16 @@ public class DAO_Materia implements IMateriaDao {
         }
         this.callLigarUserEstudiante();
         this.TareasetEstudianteToNotas(obj.getId_materia());
-        return true; 
+        return true;
     }
-    
+
     @Override
-    public List<estMat> getEstudianteMateria(int idx,int id_con) {
+    public List<estMat> getEstudianteMateria(int idx, int id_con) {
         Connection con;
         Statement stm;
         ResultSet rs;
 
-       // String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
+        // String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
         String sql = "select * from nota_estudiante nt inner join estudiantes_materia est on est.doc_estudiante=nt.doc_est where id_con = ? and est.id_materia=?";
         List<estMat> result = new ArrayList<>();
 
@@ -161,7 +162,7 @@ public class DAO_Materia implements IMateriaDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 estMat es = new estMat();
-                
+
                 es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
                 es.setId_materia(rs.getInt(("ID_MATERIA")));
                 es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
@@ -170,8 +171,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setNota(rs.getDouble("NOTA_ES"));
                 es.setId_con(rs.getInt("ID_CON"));
                 es.setComentario(rs.getString("COMENTARIO"));
-                
-                
+
                 result.add(es);
             }
 
@@ -183,8 +183,8 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
-    
-     @Override
+
+    @Override
     public boolean deleteEstudianteMateria(String idx, String doc) {
         Connection con;
 
@@ -205,7 +205,7 @@ public class DAO_Materia implements IMateriaDao {
         }
         return true;
     }
-    
+
     @Override
     public List<estMat> getMisMaterias(Usuario us) {
         Connection con;
@@ -224,12 +224,12 @@ public class DAO_Materia implements IMateriaDao {
             while (rs.next()) {
                 estMat es = new estMat();
                 Materia mat = new Materia();
-                
+
                 es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
                 es.setId_materia(rs.getInt(("ID_MATERIA")));
                 es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
                 es.setId_usuario(rs.getInt("ID_USUARIO"));
-                
+
                 es.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 es.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
                 es.setFACULTAD_MATERIA(rs.getInt("FACULTAD_MATERIA"));
@@ -247,25 +247,26 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
+
     @Override
-   public void callLigarUserEstudiante(){
+    public void callLigarUserEstudiante() {
         Connection con;
         con = Conexion.getConexion();
-        
+
         try (CallableStatement cst = con.prepareCall("{call LigarUsuarioEstudiante (?)}")) {
             cst.registerOutParameter(1, java.sql.Types.INTEGER);
-            
+
             cst.execute();
             cst.close();
-           con.close();
+            con.close();
 
         } catch (SQLException ex) {
             System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
-            
+
         }
     }
-   
-   @Override
+
+    @Override
     public boolean setConcertacion(Concertacion co) {
         Connection con;
         String sql = "INSERT INTO CONCERTACION VALUES(?,?,?,?,?,?)";
@@ -278,7 +279,7 @@ public class DAO_Materia implements IMateriaDao {
                 ps.setString(4, co.getDoc_maestro());
                 ps.setInt(5, co.getId_materia());
                 ps.setInt(6, co.getId_usuario());
-                
+
                 ps.executeUpdate();
                 ps.close();
             }
@@ -288,10 +289,9 @@ public class DAO_Materia implements IMateriaDao {
             return false;
         }
         this.TareasetEstudianteToNotas(co.getId_materia());
-        return true; 
+        return true;
     }
-    
-    
+
     @Override
     public List<Materia> getConcertacionMateria(int idx) {
         Connection con;
@@ -311,14 +311,13 @@ public class DAO_Materia implements IMateriaDao {
             while (rs.next()) {
                 Facultad fac = new Facultad();
                 Materia ma = new Materia();
-                
-                
+
                 ma.setId_concertacion(rs.getInt("ID_CONCERTACION"));
                 ma.setNom_concertacion(rs.getString("NOMBRE_CON"));
                 ma.setValor_porcentual(rs.getDouble("PORCENTAJE_CON"));
                 ma.setDoc_maestro(rs.getString("DOC_MAESTRO"));
                 ma.setId_usuario(rs.getInt("ID_USUARIO"));
-                
+
                 result.add(ma);
             }
 
@@ -330,19 +329,19 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
-    
-     @Override
-   public boolean callSetNota(estMat nota){
+
+    @Override
+    public boolean callSetNota(estMat nota) {
         Connection con;
         con = Conexion.getConexion();
-        
+
         try (CallableStatement cst = con.prepareCall("{call setNota (?,?,?,?,?)}")) {
             cst.setNull(1, Types.INTEGER);
             cst.setDouble(2, nota.getNota());
             cst.setInt(3, nota.getId_con());
             cst.setString(4, nota.getDoc_estudiante());
             cst.setString(5, nota.getComentario());
-            
+
             cst.execute();
             cst.close();
             con.close();
@@ -353,15 +352,15 @@ public class DAO_Materia implements IMateriaDao {
         }
         return true;
     }
-   
-   @Override
-   public boolean TareasetEstudianteToNotas(int id_materia){
+
+    @Override
+    public boolean TareasetEstudianteToNotas(int id_materia) {
         Connection con;
         con = Conexion.getConexion();
-        
+
         try (CallableStatement cst = con.prepareCall("{call setEstudianteToNotas (?)}")) {
             cst.setInt(1, id_materia);
-            
+
             cst.execute();
             cst.close();
 
@@ -371,8 +370,8 @@ public class DAO_Materia implements IMateriaDao {
         }
         return true;
     }
-   
-   @Override
+
+    @Override
     public List<estMat> getMisNotas(estMat datos) {
         Connection con;
         Statement stm;
@@ -391,7 +390,7 @@ public class DAO_Materia implements IMateriaDao {
             while (rs.next()) {
                 estMat es = new estMat();
                 Materia mat = new Materia();
-                
+
                 es.setId_nota(rs.getInt("ID_NOTA"));
                 es.setNota(rs.getDouble("NOTA_ES"));
                 es.setId_con(rs.getInt("ID_CON"));
@@ -401,7 +400,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setId_materia(rs.getInt("ID_MATERIA"));
                 es.setId_usuario(rs.getInt("ID_USUARIO"));
                 es.setComentario(rs.getString("COMENTARIO"));
-                es.setDefinitiva(this.CalcularDefinitiva(datos.getId_materia(),datos.getDoc_estudiante()));
+                es.setDefinitiva(this.CalcularDefinitiva(datos.getId_materia(), datos.getDoc_estudiante()));
                 result.add(es);
             }
 
@@ -414,9 +413,9 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
-    
+
     @Override
-   public double CalcularDefinitiva(int id_materia, String documento){
+    public double CalcularDefinitiva(int id_materia, String documento) {
         Connection con;
         con = Conexion.getConexion();
         double definitiva = 0;
@@ -424,7 +423,7 @@ public class DAO_Materia implements IMateriaDao {
             cst.setString(1, documento);
             cst.setInt(2, id_materia);
             cst.registerOutParameter(3, java.sql.Types.DOUBLE);
-            
+
             cst.execute();
             definitiva = cst.getDouble(3);
             cst.close();
@@ -434,8 +433,8 @@ public class DAO_Materia implements IMateriaDao {
         }
         return definitiva;
     }
-   
-   @Override
+
+    @Override
     public int getValorConcertado(int idx) {
         Connection con;
         Statement stm;
@@ -444,7 +443,7 @@ public class DAO_Materia implements IMateriaDao {
         String sql = "select sum(porcentaje_con) as concertado from concertacion where id_materia=?";
         //String sql = "SELECT * FROM MATERIA mat, CONCERTACION co where mat.id_materia=co.id_materia and mat.id_maestro = ?";
 
-        int result =0;
+        int result = 0;
 
         try {
             con = Conexion.getConexion();
@@ -463,20 +462,21 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
+
     @Override
-    public boolean updateConcertacion(Concertacion concert){
+    public boolean updateConcertacion(Concertacion concert) {
         Connection con;
         Statement stm;
         ResultSet rs;
-        
+
         String sql = "update concertacion set NOMBRE_CON = ?, PORCENTAJE_CON = ? WHERE ID_CONCERTACION=?";
         try {
             con = Conexion.getConexion();
             try (PreparedStatement ps = con.prepareStatement(sql)) {
-                
+
                 ps.setString(1, concert.getNom_concertacion());
                 ps.setDouble(2, concert.getValor_porcentual());
-                ps.setInt(3,concert.getId_concertacion());
+                ps.setInt(3, concert.getId_concertacion());
                 ps.executeUpdate();
                 ps.close();
             }
@@ -487,5 +487,60 @@ public class DAO_Materia implements IMateriaDao {
         }
         return true;
     }
-     
+
+    @Override
+    public boolean SaveAllCalifications(List<estMat> notas) {
+        Connection con;
+        con = Conexion.getConexion();
+
+        try (CallableStatement cst = con.prepareCall("{call setNota (?,?,?,?,?)}")) {
+
+            for (estMat nota : notas) {
+                cst.setNull(1, Types.INTEGER);
+                cst.setDouble(2, nota.getNota());
+                cst.setInt(3, nota.getId_con());
+                cst.setString(4, nota.getDoc_estudiante());
+                cst.setString(5, nota.getComentario());
+                cst.execute();
+            }
+
+            cst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método Login: " + ex);
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean deleteConcertacion(estMat concertacion) {
+        Connection con;
+        con = Conexion.getConexion();
+        int result = 0;
+
+        try (CallableStatement cst = con.prepareCall("{call deleteConcertacion (?,?,?)}")) {
+
+            
+                cst.setInt(1, concertacion.getId_con());
+                cst.setInt(2, concertacion.getId_materia());
+                cst.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst.execute();
+            
+                result = cst.getInt(3);
+            cst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método deleteConcertacion: " + ex);
+            return false;
+        }
+        if(result == 1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }

@@ -6,6 +6,7 @@
 package com.spring.boot.polinotes.Services;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.spring.boot.polinotes.facade.FacadeMateria;
 import com.spring.boot.polinotes.facade.FacadeUsuario;
 import com.spring.boot.polinotes.facade.IFacadeMateria;
@@ -14,6 +15,7 @@ import com.spring.boot.polinotes.models.Concertacion;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.lang.reflect.Type;
 
 /**
  *
@@ -134,5 +137,26 @@ public class MateriaServices {
          Concertacion data = new Gson().fromJson(obj, Concertacion.class);
         System.out.println(data);
         return this.facade.updateConcertacion(data);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/guardarnotas", method = RequestMethod.POST)
+    public boolean GuardarNotas(@RequestBody String obj){
+        
+        Type listType = new TypeToken<ArrayList<estMat>>() {
+                    }.getType();
+        List<estMat> data = new Gson().fromJson(obj, listType);
+        
+        //ArrayList<estMat> data = new Gson().fromJson(obj, ArrayList.class);
+        System.out.println(data);
+        return this.facade.SaveAllCalifications(data);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/deleteconcert", method = RequestMethod.POST)
+    public boolean deleteConcertacion(@RequestBody String obj){
+        
+         estMat data = new Gson().fromJson(obj, estMat.class);
+        return this.facade.deleteConcertacion(data);
     }
 }

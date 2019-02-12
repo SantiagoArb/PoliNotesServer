@@ -10,6 +10,7 @@ import java.util.List;
 import com.spring.boot.polinotes.models.Materia;
 import com.spring.boot.polinotes.models.Usuario;
 import com.spring.boot.polinotes.models.estMat;
+import java.util.ArrayList;
 
 /**
  *
@@ -39,4 +40,6 @@ public interface IMateriaDao {
     public double CalcularDefinitiva(int id_materia, String documento);
     public int getValorConcertado(int idx);
     public boolean updateConcertacion(Concertacion concert);
+    public boolean SaveAllCalifications(List<estMat> notas);
+    public boolean deleteConcertacion(estMat concertacion);
 }

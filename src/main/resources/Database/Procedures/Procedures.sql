@@ -186,3 +186,22 @@ nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
 out_definitiva := out_definitiva + nota;
 end loop;
 end calcularDefinitiva;
+
+
+
+create or replace PROCEDURE deleteConcertacion
+                                              (
+                                               in_id_con  IN CONCERTACION.ID_CONCERTACION%TYPE,
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+
+begin
+    resultado:=0;
+    delete from NOTA_ESTUDIANTE where ID_CON=in_id_con;
+    
+    delete from concertacion where id_concertacion = in_id_con and ID_MATERIA = in_id_materia;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteConcertacion;
