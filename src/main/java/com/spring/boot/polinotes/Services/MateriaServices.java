@@ -159,4 +159,10 @@ public class MateriaServices {
          estMat data = new Gson().fromJson(obj, estMat.class);
         return this.facade.deleteConcertacion(data);
     }
+    
+     @CrossOrigin
+    @RequestMapping(value="/getcantest", method=RequestMethod.GET)
+    public List<estMat> getReportePorConcertacion(@RequestParam(value="idx") int idx){
+        return this.facade.getCantidadEstudiantes(idx);
+    }
 }

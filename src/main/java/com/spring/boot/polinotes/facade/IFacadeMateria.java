@@ -45,5 +45,6 @@ public interface IFacadeMateria {
      public boolean SaveAllCalifications(List<estMat> data);
      
      public boolean deleteConcertacion(estMat concertacion);
+     public List<estMat> getCantidadEstudiantes(int idx);
     
 }

@@ -42,4 +42,5 @@ public interface IMateriaDao {
     public boolean updateConcertacion(Concertacion concert);
     public boolean SaveAllCalifications(List<estMat> notas);
     public boolean deleteConcertacion(estMat concertacion);
+    public List<estMat> getCantidadEstudiantes(int idx);
 }

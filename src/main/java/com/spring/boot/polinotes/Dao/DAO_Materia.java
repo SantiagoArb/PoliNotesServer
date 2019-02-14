@@ -542,5 +542,43 @@ public class DAO_Materia implements IMateriaDao {
             return true;
         }
     }
+    
+    @Override
+    public List<estMat> getCantidadEstudiantes(int idx) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        String sql = "select mat.ID_MATERIA, mat.NOMBRE_MATERIA,mat.CODIGO_MATERIA,mat.ID_MAESTRO,mat.FACULTAD_MATERIA, (select count(*) from estudiantes_materia estm where estm.ID_MATERIA=mat.ID_MATERIA) as Estudiantes from materia mat where mat.ID_MAESTRO=?";
+
+        List<estMat> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                estMat es = new estMat();
+               
+                
+               es.setId_materia(rs.getInt("ID_MATERIA"));
+                es.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
+                es.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
+                es.setID_MAESTRO(rs.getInt("ID_MAESTRO"));
+                es.setCantidad(rs.getInt("ESTUDIANTES"));
+                result.add(es);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+            System.out.println(e);
+        }
+        return result;
+    }
 
 }

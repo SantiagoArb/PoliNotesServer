@@ -29,6 +29,7 @@ public class FacadeMateria implements IFacadeMateria{
     public boolean setMateria(Materia ma) {
         return this.dao.setMateria(ma);
     }
+    
 
     @Override
     public List<Materia> getMateria(int idx) {
@@ -100,5 +101,9 @@ public class FacadeMateria implements IFacadeMateria{
     @Override
     public boolean deleteConcertacion(estMat concertacion){
         return this.dao.deleteConcertacion(concertacion);
+    }
+    @Override
+    public List<estMat> getCantidadEstudiantes(int idx){
+        return this.dao.getCantidadEstudiantes(idx);
     }
 }

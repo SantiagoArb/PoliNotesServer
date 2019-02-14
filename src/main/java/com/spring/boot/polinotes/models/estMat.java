@@ -26,6 +26,7 @@ public class estMat {
      private double porcentaje;
     private double definitiva;
     private String comentario;
+    private int cantidad;
 
     public estMat(int id_materia, String doc_estudiante, String nom_estudiante, int id) {
         this.id_materia = id_materia;
@@ -35,6 +36,14 @@ public class estMat {
     }
 
     public estMat() {
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public String getComentario() {
