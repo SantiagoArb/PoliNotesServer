@@ -205,3 +205,40 @@ begin
       resultado:=1;
 
 end deleteConcertacion;
+
+
+create or replace PROCEDURE deleteMateria(
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+CURSOR cur_concertaciones IS select *from concertacion where ID_MATERIA = in_id_materia;
+begin
+    resultado:=0;
+    for indx in cur_concertaciones
+  loop
+    delete from NOTA_ESTUDIANTE where ID_CON = indx.ID_CONCERTACION;
+   end loop;
+   DELETE FROM CONCERTACION WHERE ID_MATERIA = in_id_materia;
+   DELETE FROM MATERIA WHERE ID_MATERIA = in_id_materia;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteMateria;
+
+create or replace PROCEDURE deleteEstudiante(
+                                               in_doc_est  IN CONCERTACION.ID_CONCERTACION%TYPE,
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+CURSOR cur_concertaciones IS select *from concertacion where ID_MATERIA = in_id_materia;
+begin
+    resultado:=0;
+   for indx in cur_concertaciones
+  loop
+    delete from NOTA_ESTUDIANTE where ID_CON = indx.ID_CONCERTACION AND DOC_EST = in_doc_est;
+   end loop;
+   DELETE FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = in_id_materia AND DOC_ESTUDIANTE = in_doc_est;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteEstudiante;

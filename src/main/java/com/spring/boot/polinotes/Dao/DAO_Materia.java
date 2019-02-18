@@ -101,19 +101,18 @@ public class DAO_Materia implements IMateriaDao {
     @Override
     public boolean deleteMateria(Materia ma) {
         Connection con;
+        con = Conexion.getConexion();
 
-        String sql = "DELETE FROM materia WHERE id_materia = ?";
+         try (CallableStatement cst = con.prepareCall("{call deleteMateria (?,?)}")) {
+             cst.setInt(1, ma.getID_MATERIA());
+            cst.registerOutParameter(2, java.sql.Types.INTEGER);
 
-        try {
-            con = Conexion.getConexion();
-            try (PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setInt(1, ma.getID_MATERIA());
-                ps.executeUpdate();
-                ps.close();
-            }
+            cst.execute();
+            cst.close();
             con.close();
-        } catch (SQLException e) {
-            System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método deleteMateria: " + ex);
             return false;
         }
         return true;
@@ -187,20 +186,19 @@ public class DAO_Materia implements IMateriaDao {
     @Override
     public boolean deleteEstudianteMateria(String idx, String doc) {
         Connection con;
+        con = Conexion.getConexion();
 
-        String sql = "DELETE FROM ESTUDIANTES_MATERIA WHERE DOC_ESTUDIANTE = ? AND ID_MATERIA=?";
+         try (CallableStatement cst = con.prepareCall("{call deleteEstudiante (?,?,?)}")) {
+             cst.setString(1, doc);
+             cst.setInt(2, Integer.parseInt(idx));
+            cst.registerOutParameter(2, java.sql.Types.INTEGER);
 
-        try {
-            con = Conexion.getConexion();
-            try (PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setString(1, doc);
-                ps.setInt(2, Integer.parseInt(idx));
-                ps.executeUpdate();
-                ps.close();
-            }
+            cst.execute();
+            cst.close();
             con.close();
-        } catch (SQLException e) {
-            System.out.println("Error: Clase DAO_Usuario, método eliminar: " + e);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método deleteEstudianteMateria: " + ex);
             return false;
         }
         return true;
