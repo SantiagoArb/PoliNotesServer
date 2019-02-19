@@ -165,4 +165,18 @@ public class MateriaServices {
     public List<estMat> getReportePorConcertacion(@RequestParam(value="idx") int idx){
         return this.facade.getCantidadEstudiantes(idx);
     }
+    
+    @CrossOrigin
+    @RequestMapping(value="/getallestudiantes", method=RequestMethod.GET)
+    public List<estMat> getEstudiantesPorMateria(@RequestParam(value="idx") int idx){
+        return this.facade.getEstudiantesPorMateria(idx);
+    }
+    
+     @CrossOrigin
+    @RequestMapping(value = "/deleteestudiante", method = RequestMethod.POST)
+    public boolean deleteEstudiante(@RequestBody String obj){
+        
+         estMat data = new Gson().fromJson(obj, estMat.class);
+        return this.facade.deleteEstudiante(data);
+    }
 }

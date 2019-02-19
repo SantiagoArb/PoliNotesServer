@@ -60,6 +60,10 @@ public class FacadeMateria implements IFacadeMateria{
         return this.dao.deleteEstudianteMateria(idx, doc);
     }
     @Override
+    public List<Materia> getConcertacionMateria(int idx) {
+        return this.dao.getConcertacionMateria(idx);
+    }
+    @Override
     public List<estMat> getMisMaterias(Usuario us){
         return this.dao.getMisMaterias(us);
     }
@@ -71,8 +75,8 @@ public class FacadeMateria implements IFacadeMateria{
     
     
     @Override
-    public List<Materia> getConcertacionMateria(int idx) {
-        return this.dao.getConcertacionMateria(idx);
+    public List<estMat> getEstudiantesPorMateria(int idx) {
+        return this.dao.getEstudiantesPorMateria(idx);
     }
     
     @Override
@@ -105,5 +109,11 @@ public class FacadeMateria implements IFacadeMateria{
     @Override
     public List<estMat> getCantidadEstudiantes(int idx){
         return this.dao.getCantidadEstudiantes(idx);
+    }
+    
+    
+            @Override
+    public boolean deleteEstudiante(estMat est){
+        return this.dao.deleteEstudiante(est);
     }
 }

@@ -182,6 +182,41 @@ public class DAO_Materia implements IMateriaDao {
         }
         return result;
     }
+    
+    @Override
+    public List<estMat> getEstudiantesPorMateria(int idx) {
+        Connection con;
+        Statement stm;
+        ResultSet rs;
+
+        // String sql = "SELECT * FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = ? ORDER BY NOM_ESTUDIANTE";
+        String sql = "select * from ESTUDIANTES_MATERIA where id_materia=?";
+        List<estMat> result = new ArrayList<>();
+
+        try {
+            con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idx);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                estMat es = new estMat();
+
+                es.setDoc_estudiante(rs.getString("DOC_ESTUDIANTE"));
+                es.setId_materia(rs.getInt(("ID_MATERIA")));
+                es.setNom_estudiante(rs.getString(("NOM_ESTUDIANTE")));
+                es.setId_usuario(rs.getInt("ID_USUARIO"));
+
+                result.add(es);
+            }
+
+            ps.close();
+            rs.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase DAO_Materia, método obtener");
+        }
+        return result;
+    }
 
     @Override
     public boolean deleteEstudianteMateria(String idx, String doc) {
@@ -577,6 +612,35 @@ public class DAO_Materia implements IMateriaDao {
             System.out.println(e);
         }
         return result;
+    }
+    
+    @Override
+    public boolean deleteEstudiante(estMat est) {
+        Connection con;
+        con = Conexion.getConexion();
+        int result = 0;
+
+        try (CallableStatement cst = con.prepareCall("{call deleteEstudiante (?,?,?)}")) {
+
+            
+                cst.setString(1, est.getDoc_estudiante());
+                cst.setInt(2, est.getId_materia());
+                cst.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst.execute();
+            
+                result = cst.getInt(3);
+            cst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: Procedimiento Almacenado, método deleteEstudiante: " + ex);
+            return false;
+        }
+        if(result == 1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

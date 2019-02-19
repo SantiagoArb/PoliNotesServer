@@ -46,5 +46,7 @@ public interface IFacadeMateria {
      
      public boolean deleteConcertacion(estMat concertacion);
      public List<estMat> getCantidadEstudiantes(int idx);
+     public List<estMat> getEstudiantesPorMateria(int idx);
+     public boolean deleteEstudiante(estMat est);
     
 }
