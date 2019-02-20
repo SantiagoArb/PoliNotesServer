@@ -123,7 +123,8 @@ CREATE OR REPLACE PROCEDURE setNota(
                                     In_id  NOTA_ESTUDIANTE.ID_NOTA%TYPE,
                                     In_nota  NOTA_ESTUDIANTE.NOTA_ES%TYPE,
                                     In_id_con  NOTA_ESTUDIANTE.ID_CON%TYPE,
-                                    In_doc  NOTA_ESTUDIANTE.DOC_EST%TYPE
+                                    In_doc  NOTA_ESTUDIANTE.DOC_EST%TYPE,
+                                    In_com  NOTA_ESTUDIANTE.COMENTARIO%TYPE
 
                                     ) IS
                                     
@@ -132,10 +133,10 @@ BEGIN
 
    SELECT count(*) INTO RESULTADO FROM NOTA_ESTUDIANTE WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
 IF RESULTADO = 1 THEN
-    UPDATE NOTA_ESTUDIANTE SET NOTA_ES = In_nota WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
+    UPDATE NOTA_ESTUDIANTE SET NOTA_ES = In_nota, COMENTARIO = In_com WHERE DOC_EST = In_doc AND ID_CON= In_id_con;
 ELSE
     IF RESULTADO = 0 THEN
-        INSERT INTO NOTA_ESTUDIANTE VALUES(In_id,In_nota,In_id_con,In_doc);
+        INSERT INTO NOTA_ESTUDIANTE VALUES(In_id,In_nota,In_id_con,In_doc,In_com);
     END IF;
 END IF;
 
@@ -159,8 +160,8 @@ MERGE INTO nota_estudiante n
     ON (n.DOC_EST = est.doc_estudiante and i.ID_CONCERTACION = n.id_con)
 
   WHEN NOT MATCHED THEN
-    INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST)
-    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante);
+    INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST,n.COMENTARIO)
+    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante,'');
 
 end loop;
 
@@ -183,6 +184,61 @@ for indx in cur_salida
 loop
 nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
 out_definitiva := out_definitiva + nota;
-DBMS_OUTPUT.PUT_LINE(out_definitiva);
 end loop;
 end calcularDefinitiva;
+
+
+
+create or replace PROCEDURE deleteConcertacion
+                                              (
+                                               in_id_con  IN CONCERTACION.ID_CONCERTACION%TYPE,
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+
+begin
+    resultado:=0;
+    delete from NOTA_ESTUDIANTE where ID_CON=in_id_con;
+    
+    delete from concertacion where id_concertacion = in_id_con and ID_MATERIA = in_id_materia;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteConcertacion;
+
+
+create or replace PROCEDURE deleteMateria(
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+CURSOR cur_concertaciones IS select *from concertacion where ID_MATERIA = in_id_materia;
+begin
+    resultado:=0;
+    for indx in cur_concertaciones
+  loop
+    delete from NOTA_ESTUDIANTE where ID_CON = indx.ID_CONCERTACION;
+   end loop;
+   DELETE FROM CONCERTACION WHERE ID_MATERIA = in_id_materia;
+   DELETE FROM MATERIA WHERE ID_MATERIA = in_id_materia;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteMateria;
+
+create or replace PROCEDURE deleteEstudiante(
+                                               in_doc_est  IN CONCERTACION.ID_CONCERTACION%TYPE,
+                                               in_id_materia IN CONCERTACION.ID_MATERIA%TYPE,
+                                               resultado OUT NUMBER) AS
+CURSOR cur_concertaciones IS select *from concertacion where ID_MATERIA = in_id_materia;
+begin
+    resultado:=0;
+   for indx in cur_concertaciones
+  loop
+    delete from NOTA_ESTUDIANTE where ID_CON = indx.ID_CONCERTACION AND DOC_EST = in_doc_est;
+   end loop;
+   DELETE FROM ESTUDIANTES_MATERIA WHERE ID_MATERIA = in_id_materia AND DOC_ESTUDIANTE = in_doc_est;
+    EXCEPTION
+    when others THEN
+      resultado:=1;
+
+end deleteEstudiante;

@@ -4,6 +4,8 @@ C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\sprin
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Application.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\ILogsDao.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\DAO_Logs.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeReportes.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeReportes.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\IUsuarioDao.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\methods\SecurityPass.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Services\MateriaServices.java
@@ -12,9 +14,12 @@ C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\sprin
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Services\Tipo_PerfilServices.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\utils\Conexion.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeLogs.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Services\ReportesServices.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeTipoPerfil.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\estMat.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\DAO_Reportes.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\Materia.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\reportePorConcertacion.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Services\GreetingController.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeUsuario.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeFacultad.java
@@ -29,10 +34,12 @@ C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\sprin
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeMateria.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\DAO_Facultad.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeLogs.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\utils\Notificador.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\IFacadeFacultad.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\models\Usuario.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\IMateriaDao.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\methods\Json_Datos.java
+C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\IReportesDao.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\facade\FacadeTipoPerfil.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\heroe.java
 C:\Users\Home\Documents\NetBeansProjects\PoliNotesServer\src\main\java\com\spring\boot\polinotes\Dao\DAO_Usuario.java
