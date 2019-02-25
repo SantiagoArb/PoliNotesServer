@@ -72,6 +72,7 @@ public class DAO_Materia implements IMateriaDao {
                 Materia ma = new Materia();
 
                 ma.setID_MATERIA(rs.getInt("ID_MATERIA"));
+                ma.setId_materia(rs.getInt("ID_MATERIA"));
                 ma.setCODIGO_MATERIA(rs.getString("CODIGO_MATERIA"));
                 ma.setNOMBRE_MATERIA(rs.getString("NOMBRE_MATERIA"));
                 ma.setID_MAESTRO(rs.getInt("ID_MAESTRO"));

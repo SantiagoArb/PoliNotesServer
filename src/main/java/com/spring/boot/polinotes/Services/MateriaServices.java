@@ -169,6 +169,7 @@ public class MateriaServices {
     @CrossOrigin
     @RequestMapping(value="/getallestudiantes", method=RequestMethod.GET)
     public List<estMat> getEstudiantesPorMateria(@RequestParam(value="idx") int idx){
+    	System.out.println("Consumio el servicio"+ idx);
         return this.facade.getEstudiantesPorMateria(idx);
     }
     
