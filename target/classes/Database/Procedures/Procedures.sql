@@ -161,7 +161,7 @@ MERGE INTO nota_estudiante n
 
   WHEN NOT MATCHED THEN
     INSERT (n.ID_NOTA,n.NOTA_ES,n.ID_CON,n.DOC_EST,n.COMENTARIO)
-    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante,'');
+    VALUES (1,0.0,i.ID_CONCERTACION,est.doc_estudiante,'Default Comment');
 
 end loop;
 
@@ -178,13 +178,13 @@ create or replace PROCEDURE calcularDefinitiva
 nota number;
 CURSOR cur_salida IS SELECT * from nota_estudiante nt inner join concertacion on nt.ID_CON = concertacion.ID_CONCERTACION 
         where doc_est = in_doc and concertacion.ID_MATERIA=in_id_materia;
-begin
-out_definitiva:=0;
-for indx in cur_salida
-loop
-nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
-out_definitiva := out_definitiva + nota;
-end loop;
+	begin
+		out_definitiva:=0;
+		for indx in cur_salida
+		loop
+			nota :=  indx.nota_es * (indx.porcentaje_Con / 100);
+			out_definitiva := out_definitiva + nota;
+		end loop;
 end calcularDefinitiva;
 
 
