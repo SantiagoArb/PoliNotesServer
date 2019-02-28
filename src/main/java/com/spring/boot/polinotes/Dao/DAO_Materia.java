@@ -171,6 +171,7 @@ public class DAO_Materia implements IMateriaDao {
                 es.setNota(rs.getDouble("NOTA_ES"));
                 es.setId_con(rs.getInt("ID_CON"));
                 es.setComentario(rs.getString("COMENTARIO"));
+                es.setDefinitiva(this.CalcularDefinitiva(rs.getInt(("ID_MATERIA")), rs.getString("DOC_ESTUDIANTE")));
 
                 result.add(es);
             }
